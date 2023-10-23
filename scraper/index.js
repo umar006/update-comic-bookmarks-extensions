@@ -30,7 +30,12 @@ async function getMangas(query) {
   const mangas = await page.evaluate(() => {
     const mangaList = document.querySelectorAll(".listupd > .bs");
 
-    return Array.from(mangaList);
+    return Array.from(mangaList).map((manga) => {
+      const title = manga.querySelector("a").title;
+      const url = manga.querySelector("a").href;
+
+      return { title, url };
+    });
   });
 
   await browser.close();
