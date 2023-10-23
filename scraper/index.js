@@ -27,6 +27,12 @@ async function getMangas(query) {
     waitUntil: "domcontentloaded",
   });
 
+  const mangas = await page.evaluate(() => {
+    const mangaList = document.querySelectorAll(".listupd > .bs");
+
+    return Array.from(mangaList);
+  });
+
   await browser.close();
 
   return mangas;
