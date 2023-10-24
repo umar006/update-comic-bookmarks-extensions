@@ -12,6 +12,19 @@ function dumpTreeNodes(bookmarkNodes) {
   for (let i = 0; i < bookmarkNodes.length; i++) {
     const isAsura = bookmarkNodes[i].url.includes("asuratoon");
     if (!isAsura) continue;
+
+    updateAsuraBookmarks(bookmarkNodes[i]);
+  }
+}
+
+async function updateAsuraBookmarks(bookmarkNode) {
+  const mangas = await fetchComics(bookmarkNode.title);
+  for (let i = 0; i < mangas.length; i++) {
+    if (mangas[i].title === bookmarkNode.title) {
+      const updatedUrl = mangas[i].url;
+      chrome.bookmarks.update(bookmarkNode.id, { url: updatedUrl });
+      break;
+    }
   }
 }
 
