@@ -1,8 +1,11 @@
 import express from "express";
 import { launch } from "puppeteer";
+import cors from "cors";
 
 const app = express();
 const port = 3000;
+
+app.use(cors());
 
 app.get("/asura", async (req, res) => {
   const { s } = req.query;
