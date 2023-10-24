@@ -15,6 +15,8 @@ function dumpTreeNodes(bookmarkNodes) {
 
     updateAsuraBookmarks(bookmarkNodes[i]);
   }
+
+  $("#successupdate").append("<h1>Updated!</h1>").css("text-align", "center");
 }
 
 async function updateAsuraBookmarks(bookmarkNode) {
