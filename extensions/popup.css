@@ -7,3 +7,8 @@ body {
   display: flex;
   justify-content: center;
 }
+
+#btnupdate {
+  margin-top: 16px;
+  padding: 8px 24px;
+}

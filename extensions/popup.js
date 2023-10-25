@@ -78,6 +78,8 @@ function dumpNode(bookmarkNode) {
   return li;
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+const btnUpdate = document.getElementById("btnupdate");
+btnUpdate.addEventListener("click", function () {
+  btnUpdate.style.display = "none";
   dumpBookmarks();
 });
