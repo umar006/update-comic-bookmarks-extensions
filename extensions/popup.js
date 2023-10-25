@@ -50,7 +50,10 @@ async function fetchComics(title) {
     const json = await raw.json();
     return json.data;
   } catch (e) {
-    console.error(e);
+    $("#updateerror")
+      .append("<h1>" + e.message + "</h1>")
+      .append("<h2>Internal Server Error</h2>")
+      .css("text-align", "center");
   }
 }
 
