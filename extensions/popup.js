@@ -8,12 +8,15 @@ function dumpBookmarks() {
   });
 }
 
-function dumpTreeNodes(bookmarkNodes) {
+async function dumpTreeNodes(bookmarkNodes) {
+  const list = $("<ul>");
   for (let i = 0; i < bookmarkNodes.length; i++) {
     const isAsura = bookmarkNodes[i].url.includes("asuratoon");
     if (!isAsura) continue;
 
-    updateAsuraBookmarks(bookmarkNodes[i]);
+    await updateAsuraBookmarks(bookmarkNodes[i]);
+    list.append(dumpNode(bookmarkNodes[i]));
+    $("#bookmarks").append(list);
   }
 
   $("#successupdate").append("<h1>Updated!</h1>").css("text-align", "center");
@@ -49,6 +52,30 @@ async function fetchComics(title) {
   } catch (e) {
     console.error(e);
   }
+}
+
+function dumpNode(bookmarkNode) {
+  const anchor = $("<a>");
+  anchor.attr("href", bookmarkNode.url);
+  anchor.text(bookmarkNode.title);
+
+  /*
+   * When clicking on a bookmark in the extension, a new tab is fired with
+   * the bookmark url.
+   */
+  anchor.click(function () {
+    chrome.tabs.create({ url: bookmarkNode.url });
+  });
+
+  const span = $("<span>").append(anchor);
+
+  const li = $("<li>").append(span);
+
+  if (bookmarkNode.children && bookmarkNode.children.length > 0) {
+    li.append(dumpTreeNodes(bookmarkNode.children));
+  }
+
+  return li;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
