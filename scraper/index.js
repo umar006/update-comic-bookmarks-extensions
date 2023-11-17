@@ -9,7 +9,7 @@ app.use(cors());
 
 app.get("/asura", async (req, res) => {
   const { s } = req.query;
-  const mangas = await getMangas(s);
+  const mangas = await mangasFromAsura(s);
 
   res.json({ data: mangas });
 });
@@ -18,7 +18,7 @@ app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
 
-async function getMangas(query) {
+async function mangasFromAsura(query) {
   const browser = await launch({
     headless: "new",
     defaultViewport: null,
