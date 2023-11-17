@@ -1,6 +1,7 @@
 import express from "express";
 import { launch } from "puppeteer";
 import cors from "cors";
+import "dotenv/config";
 
 const app = express();
 const port = 3000;
@@ -26,6 +27,8 @@ app.listen(port, () => {
 });
 
 async function mangasFromAsura(query) {
+  const baseUrl = process.env.ASURA_SEARCH_URL;
+
   const browser = await launch({
     headless: "new",
     defaultViewport: null,
@@ -33,7 +36,7 @@ async function mangasFromAsura(query) {
 
   const page = await browser.newPage();
 
-  await page.goto(`https://asuratoon.com/?s=${query}`, {
+  await page.goto(`${baseUrl}/?s=${query}`, {
     waitUntil: "domcontentloaded",
   });
 
@@ -54,6 +57,8 @@ async function mangasFromAsura(query) {
 }
 
 async function mangasFromLuminous(query) {
+  const baseUrl = process.env.LUMINOUS_SEARCH_URL;
+
   const browser = await launch({
     headless: "new",
     defaultViewport: null,
@@ -61,7 +66,7 @@ async function mangasFromLuminous(query) {
 
   const page = await browser.newPage();
 
-  await page.goto(`https://luminousscans.gg/?s=${query}`, {
+  await page.goto(`${baseUrl}/?s=${query}`, {
     waitUntil: "domcontentloaded",
   });
 
