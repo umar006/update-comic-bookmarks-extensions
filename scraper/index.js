@@ -27,7 +27,7 @@ app.listen(port, () => {
 });
 
 async function mangasFromAsura(query) {
-  const baseUrl = process.env.ASURA_SEARCH_URL;
+  const searchUrl = process.env.ASURA_SEARCH_URL;
 
   const browser = await launch({
     headless: "new",
@@ -36,7 +36,7 @@ async function mangasFromAsura(query) {
 
   const page = await browser.newPage();
 
-  await page.goto(`${baseUrl}/?s=${query}`, {
+  await page.goto(`${searchUrl}${query}`, {
     waitUntil: "domcontentloaded",
   });
 
@@ -57,7 +57,7 @@ async function mangasFromAsura(query) {
 }
 
 async function mangasFromLuminous(query) {
-  const baseUrl = process.env.LUMINOUS_SEARCH_URL;
+  const searchUrl = process.env.LUMINOUS_SEARCH_URL;
 
   const browser = await launch({
     headless: "new",
@@ -66,7 +66,7 @@ async function mangasFromLuminous(query) {
 
   const page = await browser.newPage();
 
-  await page.goto(`${baseUrl}/?s=${query}`, {
+  await page.goto(`${searchUrl}${query}`, {
     waitUntil: "domcontentloaded",
   });
 
