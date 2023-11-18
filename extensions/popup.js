@@ -12,9 +12,13 @@ async function dumpTreeNodes(bookmarkNodes) {
   const list = $("<ul>");
   for (let i = 0; i < bookmarkNodes.length; i++) {
     const isAsura = bookmarkNodes[i].url.includes("asuratoon");
-    if (!isAsura) continue;
+    const isLuminous = bookmarkNodes[i].url.includes("luminous");
 
-    await updateAsuraBookmarks(bookmarkNodes[i]);
+    if (!isAsura && !isLuminous) continue;
+
+    if (isAsura) await updateAsuraBookmarks(bookmarkNodes[i]);
+    if (isLuminous) await updateLuminousBookmarks(bookmarkNodes[i]);
+
     list.append(dumpNode(bookmarkNodes[i]));
     $("#bookmarks").append(list);
   }
@@ -23,7 +27,9 @@ async function dumpTreeNodes(bookmarkNodes) {
 }
 
 async function updateAsuraBookmarks(bookmarkNode) {
-  const mangas = await fetchComics(bookmarkNode.title);
+  const url = "http://localhost:3000/asura?s=";
+
+  const mangas = await fetchComics(bookmarkNode.title, url);
   for (let i = 0; i < mangas.length; i++) {
     if (mangas[i].title === bookmarkNode.title) {
       const updatedUrl = mangas[i].url;
@@ -33,7 +39,20 @@ async function updateAsuraBookmarks(bookmarkNode) {
   }
 }
 
-async function fetchComics(title) {
+async function updateLuminousBookmarks(bookmarkNode) {
+  const url = "http://localhost:3000/luminous?s=";
+
+  const mangas = await fetchComics(bookmarkNode.title, url);
+  for (let i = 0; i < mangas.length; i++) {
+    if (mangas[i].title === bookmarkNode.title) {
+      const updatedUrl = mangas[i].url;
+      chrome.bookmarks.update(bookmarkNode.id, { url: updatedUrl });
+      break;
+    }
+  }
+}
+
+async function fetchComics(title, scraperUrl) {
   // check curly single quote and get the index position
   const check = title.indexOf("\u2019");
 
@@ -43,7 +62,7 @@ async function fetchComics(title) {
     title = title.slice(0, check);
   }
 
-  const url = "http://localhost:3000/asura?s=" + encodeURIComponent(title);
+  const url = scraperUrl + encodeURIComponent(title);
 
   try {
     const raw = await fetch(url);
