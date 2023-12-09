@@ -37,6 +37,7 @@ Please note that the extension only works with bookmarks inside the "manga" fold
   - [AsuraScans](https://asuratoon.com/)
   - [LuminousScans](https://luminousscans.net/)
 - It relies on the availability and structure of comics' website, so any changes to their site's structure may affect its functionality.
+- Some comic titles that have single quote (') or curly single quote (’) may fail to be updated.
 
 ---
 
