@@ -22,7 +22,7 @@ The Comic URL Updater is a Chrome extension designed to help you keep your comic
 3. Run scraper server in your terminal.
 
 ```
-node scraper/index.js
+node index.js
 ```
 
 4. Open the extension of the Comic URL Update in your Chrome toolbar extension.
