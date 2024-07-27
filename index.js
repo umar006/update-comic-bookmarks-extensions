@@ -10,9 +10,10 @@ app.use(cors());
 
 app.get("/asura", async (req, res) => {
   const { s } = req.query;
-  const mangas = await mangasFromAsura(s);
+  console.log(s);
+  const manga = await mangasFromAsura(s);
 
-  res.json({ data: mangas });
+  res.json({ data: manga });
 });
 
 app.get("/luminous", async (req, res) => {

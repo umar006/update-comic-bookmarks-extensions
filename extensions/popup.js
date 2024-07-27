@@ -11,7 +11,7 @@ function dumpBookmarks() {
 async function dumpTreeNodes(bookmarkNodes) {
   const list = $("<ul>");
   for (let i = 0; i < bookmarkNodes.length; i++) {
-    const isAsura = bookmarkNodes[i].url.includes("asuratoon");
+    const isAsura = bookmarkNodes[i].url.includes("asura");
     const isLuminous = bookmarkNodes[i].url.includes("luminous");
 
     if (!isAsura && !isLuminous) continue;
@@ -29,14 +29,9 @@ async function dumpTreeNodes(bookmarkNodes) {
 async function updateAsuraBookmarks(bookmarkNode) {
   const url = "http://localhost:3000/asura?s=";
 
-  const mangas = await fetchComics(bookmarkNode.title, url);
-  for (let i = 0; i < mangas.length; i++) {
-    if (mangas[i].title === bookmarkNode.title) {
-      const updatedUrl = mangas[i].url;
-      chrome.bookmarks.update(bookmarkNode.id, { url: updatedUrl });
-      break;
-    }
-  }
+  const manga = await fetchComics(bookmarkNode.title, url);
+  const updatedUrl = manga.url;
+  chrome.bookmarks.update(bookmarkNode.id, { url: updatedUrl });
 }
 
 async function updateLuminousBookmarks(bookmarkNode) {
@@ -53,15 +48,6 @@ async function updateLuminousBookmarks(bookmarkNode) {
 }
 
 async function fetchComics(title, scraperUrl) {
-  // check curly single quote and get the index position
-  const check = title.indexOf("\u2019");
-
-  // check idx position > title.length / 2, so title don't to short
-  // e.g. I'm the best -> I
-  if (check !== -1 && check > Math.floor(title.length / 2)) {
-    title = title.slice(0, check);
-  }
-
   const url = scraperUrl + encodeURIComponent(title);
 
   try {
